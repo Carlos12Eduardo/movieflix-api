@@ -74,12 +74,12 @@ app.put("/movies/:id", async (req, res) => {
         });
         res.status(200).send("filme atualizado com sucesso!");
     } catch (error) {
-        return res.status(500).send({ message: "Falha ao atualizar o registro do filme", error: `${error}`});
+        return res.status(500).send({ message: "Falha ao atualizar o registro do filme", error: `${error}` });
     }
 });
 
-app.delete("/movies/:id", async (req,res) => {
-    try{
+app.delete("/movies/:id", async (req, res) => {
+    try {
         const id = Number(req.params.id);
 
         const movie = await prisma.movie.findUnique({
@@ -87,7 +87,7 @@ app.delete("/movies/:id", async (req,res) => {
                 id: id
             }
         });
-        if(!movie){
+        if (!movie) {
             return res.status(404).send({ message: "Filme não encontrado!" });
         }
         await prisma.movie.delete({
@@ -95,12 +95,35 @@ app.delete("/movies/:id", async (req,res) => {
                 id: id
             }
         });
-    
+
         res.status(200).send("Filme deletado com sucesso!");
-    }catch(error){
-        return res.status(500).send({message: "Erro ao tentar deletar o filme.", error: `${error}`});
+    } catch (error) {
+        return res.status(500).send({ message: "Erro ao tentar deletar o filme.", error: `${error}` });
     }
 });
+
+app.get("/movies/:genresName", async (req, res) => {
+    try {
+        const genres = req.params.genresName;
+        const movieFilteredByGenres = await prisma.movie.findMany({
+            include:{
+                genres: true,
+                languages: true
+            },
+            where: {
+                genres: {
+                    name:{
+                        equals: genres,
+                        mode: "insensitive"
+                    }
+                }
+            }    
+        });
+        res.status(200).send(movieFilteredByGenres);
+    } catch (error) {
+        res.status(500).send({ message: "Erro ao consultar Filmes por gênero" });
+    }
+})
 
 app.listen(port, () => {
     console.log(`servidor em execução na ${port}`);
