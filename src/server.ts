@@ -1,11 +1,16 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import swaggerUI from "swagger-ui-express";
+import swaggerDocument from "../swagger.json";
+
 
 const port = 3000;
 const app = express();
 const prisma = new PrismaClient();
 
 app.use(express.json());
+
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.get("/movies", async (_, res) => {
     const movies = await prisma.movie.findMany({
         include: {
@@ -106,18 +111,18 @@ app.get("/movies/:genresName", async (req, res) => {
     try {
         const genres = req.params.genresName;
         const movieFilteredByGenres = await prisma.movie.findMany({
-            include:{
+            include: {
                 genres: true,
                 languages: true
             },
             where: {
                 genres: {
-                    name:{
+                    name: {
                         equals: genres,
                         mode: "insensitive"
                     }
                 }
-            }    
+            }
         });
         res.status(200).send(movieFilteredByGenres);
     } catch (error) {
