@@ -14,7 +14,7 @@
                 "summary": "obter todos os filmes do banco de dados",
                 "responses": {
                     "200:": {
-                        "descriptio": "retorna uma lista de filmes",
+                        "description": "retorna uma lista de filmes",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -94,6 +94,43 @@
                     "500": {
                         "description": "Erro ao tentar deletar o filme."
                     }
+                }
+            }
+        },
+        "/movies/{genreName}": {
+            "get": {
+                "tags": [
+                    "Movie"
+                ],
+                "summary": "Filtrar filmes por gênero",
+                "parameters": [
+                    {
+                        "name": "genreName",
+                        "in": "path",
+                        "required": true,
+                        "description": "nome do gênero do filme que deseja filtar",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200:": {
+                        "description": "retorna uma lista de filmes que contem o gênero da busca",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type:": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Movie"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "500": {
+                    "description": "Erro ao consultar Filmes por gênero"
                 }
             }
         }
