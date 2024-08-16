@@ -143,6 +143,55 @@
                     "id": {
                         "type": "integer",
                         "description": "ID do filme no banco de dados"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Nome do título do filme"
+                    },
+                    "release_date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Data de lançamento do filme"
+                    },
+                    "genre_id": {
+                        "type": "integer",
+                        "description": "ID do gênero do filme"
+                    },
+                    "language_id": {
+                        "type": "integer",
+                        "description": "ID da lingua do filme"
+                    },
+                    "oscar_count": {
+                        "type": "integer",
+                        "description": "Numero de Oscar's que o filme possue"
+                    },
+                    "genres": {
+                        "type": "object",
+                        "description": "descrição do gênero do filme",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "description": "ID do gênero do filme"
+                            },
+                            "name": {
+                                "type": "string",
+                                "description": "nome do gênero do filme"
+                            }
+                        }
+                    },
+                    "languages": {
+                        "type": "object",
+                        "description": "descrição da lingua do filme",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "description": "ID da lingua do filme"
+                            },
+                            "name": {
+                                "type": "string",
+                                "description": "nome do lingua do filme"
+                            }
+                        }
                     }
                 }
             },
